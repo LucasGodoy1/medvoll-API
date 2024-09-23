@@ -5,6 +5,8 @@ import med.voll.api.dto.DadosCadastroMedicoDTO;
 import med.voll.api.dto.ListarMedicoDTO;
 import med.voll.api.entity.Medico;
 import med.voll.api.repository.MedicoRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,8 +24,8 @@ public class MedicoService {
     }
 
     @Transactional
-    public List<ListarMedicoDTO> listarMedicos() {
-        return medicoRepository.findAll().stream().map(ListarMedicoDTO::new).toList();
+    public Page<ListarMedicoDTO> listarMedicos(Pageable pageable) {
+        return medicoRepository.findAll(pageable).map(ListarMedicoDTO::new);
     }
 
 }
