@@ -40,6 +40,16 @@ public class MedicoController {
         medicoService.atualizarMedico(dadosAtualizacaoMedicoDTO);
     }
 
+    @DeleteMapping("deletarmedicos={id}")
+    public void deletar(@PathVariable Long id) {
+        medicoService.deletePorID(id);
+    }
+
+    @DeleteMapping("excluirmedico={id}")
+    public void excluir(@PathVariable Long id) {
+        medicoService.desativarPorID(id);
+    }
+
 
 
 

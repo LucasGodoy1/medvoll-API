@@ -28,13 +28,23 @@ public class MedicoService {
 
     @Transactional
     public Page<ListarMedicoDTO> listarMedicos(Pageable pageable) {
-        return medicoRepository.findAll(pageable).map(ListarMedicoDTO::new);
+        return medicoRepository.findAllByAtivoTrue(pageable).map(ListarMedicoDTO::new);
     }
 
     @Transactional
     public void atualizarMedico(DadosAtualizacaoMedicoDTO dadosAtualizacaoMedicoDTO) {
        var medico = medicoRepository.getReferenceById(dadosAtualizacaoMedicoDTO.id());
        medico.atualizarMedico(dadosAtualizacaoMedicoDTO);
+    }
+    @Transactional
+    public void desativarPorID(Long id) {
+        var medico = medicoRepository.getReferenceById(id);
+        medico.excluir();
+    }
+
+    @Transactional
+    public void deletePorID(Long id) {
+        medicoRepository.deleteById(id);
     }
 
 }
