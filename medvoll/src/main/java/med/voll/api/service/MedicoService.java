@@ -1,7 +1,9 @@
 package med.voll.api.service;
 
 import lombok.RequiredArgsConstructor;
+import med.voll.api.dto.DadosAtualizacaoMedicoDTO;
 import med.voll.api.dto.DadosCadastroMedicoDTO;
+import med.voll.api.dto.DadosEnderecoDTO;
 import med.voll.api.dto.ListarMedicoDTO;
 import med.voll.api.entity.Medico;
 import med.voll.api.repository.MedicoRepository;
@@ -27,6 +29,12 @@ public class MedicoService {
     @Transactional
     public Page<ListarMedicoDTO> listarMedicos(Pageable pageable) {
         return medicoRepository.findAll(pageable).map(ListarMedicoDTO::new);
+    }
+
+    @Transactional
+    public void atualizarMedico(DadosAtualizacaoMedicoDTO dadosAtualizacaoMedicoDTO) {
+       var medico = medicoRepository.getReferenceById(dadosAtualizacaoMedicoDTO.id());
+       medico.atualizarMedico(dadosAtualizacaoMedicoDTO);
     }
 
 }

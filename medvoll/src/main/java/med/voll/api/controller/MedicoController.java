@@ -2,6 +2,7 @@ package med.voll.api.controller;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import med.voll.api.dto.DadosAtualizacaoMedicoDTO;
 import med.voll.api.dto.DadosCadastroMedicoDTO;
 import med.voll.api.dto.ListarMedicoDTO;
 import med.voll.api.entity.Medico;
@@ -29,10 +30,17 @@ public class MedicoController {
     } //localhost:8080/medicos/listarMedicos?size=5&page=2&sort=nome,desc
 
     @GetMapping("listarMedicos")
-    ResponseEntity<Page<ListarMedicoDTO>> listarMedicos(@PageableDefault(size = 10, sort = {"nome"}) Pageable pageable) {
+    public ResponseEntity<Page<ListarMedicoDTO>> listarMedicos(@PageableDefault(size = 10, sort = {"nome"}) Pageable pageable) {
 
         return ResponseEntity.ok(medicoService.listarMedicos(pageable));
     }
+
+    @PutMapping("atualizardadosmedico")
+    public void atualizar(@RequestBody @Valid DadosAtualizacaoMedicoDTO dadosAtualizacaoMedicoDTO) {
+        medicoService.atualizarMedico(dadosAtualizacaoMedicoDTO);
+    }
+
+
 
 
 
