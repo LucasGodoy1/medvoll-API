@@ -1,19 +1,16 @@
-package med.voll.api.service;
+package med.voll.api.domain.service;
 
 import lombok.RequiredArgsConstructor;
-import med.voll.api.dto.DadosAtualizacaoMedicoDTO;
-import med.voll.api.dto.DadosCadastroMedicoDTO;
-import med.voll.api.dto.DadosEnderecoDTO;
-import med.voll.api.dto.ListarMedicoDTO;
-import med.voll.api.entity.Medico;
-import med.voll.api.repository.MedicoRepository;
+import med.voll.api.domain.dto.DadosAtualizacaoMedicoDTO;
+import med.voll.api.domain.dto.DadosCadastroMedicoDTO;
+import med.voll.api.domain.dto.DadosDetalhamentoMedicoDTO;
+import med.voll.api.domain.dto.ListarMedicoDTO;
+import med.voll.api.domain.entity.Medico;
+import med.voll.api.domain.repository.MedicoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -21,9 +18,10 @@ public class MedicoService {
     private final MedicoRepository medicoRepository;
 
     @Transactional
-    public void salvarMedico(DadosCadastroMedicoDTO dados) {
+    public DadosDetalhamentoMedicoDTO salvarMedico(DadosCadastroMedicoDTO dados) {
         var medico = new Medico(dados);
         medicoRepository.save(medico);
+        return new DadosDetalhamentoMedicoDTO(medico);
     }
 
     @Transactional
@@ -32,9 +30,10 @@ public class MedicoService {
     }
 
     @Transactional
-    public void atualizarMedico(DadosAtualizacaoMedicoDTO dadosAtualizacaoMedicoDTO) {
+    public DadosDetalhamentoMedicoDTO atualizarMedico(DadosAtualizacaoMedicoDTO dadosAtualizacaoMedicoDTO) {
        var medico = medicoRepository.getReferenceById(dadosAtualizacaoMedicoDTO.id());
        medico.atualizarMedico(dadosAtualizacaoMedicoDTO);
+       return new DadosDetalhamentoMedicoDTO(medico);
     }
     @Transactional
     public void desativarPorID(Long id) {
@@ -45,6 +44,12 @@ public class MedicoService {
     @Transactional
     public void deletePorID(Long id) {
         medicoRepository.deleteById(id);
+    }
+
+    @Transactional
+    public DadosDetalhamentoMedicoDTO buscarPorID(Long id) {
+        var medico = medicoRepository.getReferenceById(id);
+        return new DadosDetalhamentoMedicoDTO(medico);
     }
 
 }

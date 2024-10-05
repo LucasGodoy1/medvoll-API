@@ -1,4 +1,4 @@
-package med.voll.api.endereco;
+package med.voll.api.domain.endereco;
 
 public enum UF {
         AC, AL, AM, AP, BA, CE, DF, ES, GO, MA, MT, MS, MG, PA, PB,
